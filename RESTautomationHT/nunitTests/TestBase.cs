@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace RESTautomationHT.nunitTests
 {
-    class TestBase
+    public class TestBase
     {
+        protected Random random = new Random();
+        protected DateTime today;
     }
 }

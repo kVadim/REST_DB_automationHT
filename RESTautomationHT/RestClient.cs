@@ -17,10 +17,20 @@ namespace RESTautomationHT
         public string Category { get; set; }
     }
 
-    class RestClient
+    public class RestClient
     {
         static HttpClient client = new HttpClient();
-        
+
+
+        public HttpResponseMessage getAllimets()
+        {
+            RunAsync().Wait();
+            HttpResponseMessage response; 
+            return response;
+        }
+
+
+
 
             static void Main()
         {
@@ -29,7 +39,6 @@ namespace RESTautomationHT
 
         static async Task RunAsync()
         {
-            // New code:
             client.BaseAddress = new Uri("http://172.30.23.9:8080/ServletToDoList/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
