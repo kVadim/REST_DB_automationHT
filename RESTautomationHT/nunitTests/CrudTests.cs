@@ -22,14 +22,15 @@ namespace RESTautomationHT.nunitTests
             Assert.IsTrue(GetAllItemsresponse.StatusCode.ToString() =="OK");
             Console.WriteLine("Verify response's headers");
 
+        //ClientResponse getAllListsResponse = client.getAllLists();
 
+        //System.out.println("Validate response's  Status Code");
         //StatusCodeValidator.Validate("200", getAllListsResponse);
 
         //System.out.println("Verify response's headers");
         //Map<String, String> expectedHeaders = new HashMap<>();
         //expectedHeaders.put("Content-Type", MediaType.APPLICATION_JSON);
         //HeadersValidator.Validate(expectedHeaders, getAllListsResponse);
-
         }
 
         [Test]

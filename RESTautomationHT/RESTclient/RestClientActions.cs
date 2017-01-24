@@ -10,43 +10,87 @@ namespace RESTautomationHT.RESTclient
 {
     public class RestClientActions: RestClient
     {
-        //static CookieContainer myContainer = new CookieContainer();
+        //static CookieContainer myContainer = new CookieContainer(); // WHY DO WE NEED IT HERE
 
         public void login(string user, string password)  
         {
-            HttpWebResponse firstrequest = sendRequest(Constants.Urls.APP_URL, HttpMethod.GET);
+            HttpWebResponse firstresponce = sendRequest(Constants.Urls.APP_URL, HttpMethod.GET);
             string authContentType = "application/x-www-form-urlencoded";
             string credentialsBody = String.Format("name={0}&password={1}", user, password);
-           // var data = Encoding.ASCII.GetBytes(credentialsBody);
+            HttpWebResponse responce = sendRequest(Constants.Urls.LOGIN_URL, HttpMethod.POST, credentialsBody, authContentType);
 
-            HttpWebResponse request = sendRequest(Constants.Urls.LOGIN_URL, HttpMethod.POST, credentialsBody, authContentType);
+        //    if (!String.valueOf(loginResponse.getStatusCode()).equals("200"))
+        //    {
+        //        // da u nas uspeshni login eto 500
+        //        throw new Exception("Looks like you didn't log in, buddy");
+        //    }
+        //    return loginResponse;
+        }
 
-            //HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(Constants.Urls.LOGIN_URL);
-            //request1.CookieContainer = myContainer;
-            //request1.Accept = "*/*";
-            //request1.Method = HttpMethod.POST.ToString();
-            //request1.ContentType = authContentType;
-            //request1.ContentLength = data.Length;
-            //using (var stream = request1.GetRequestStream())
+        //public ClientResponse getAllLists()
+        //{
+        //    return sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET, "", null, null);
+        //}
+
+        public HttpWebResponse getAllitems()
+        {
+            return sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET);
+
+            // HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(Constants.Urls.GET_LISTS_URL);
+            // request2.CookieContainer = myContainer;
+            //request2.Accept = "application/json";
+            //request2.Method = HttpMethod.GET.ToString();
+            //HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+            //var encoding = ASCIIEncoding.ASCII;
+            //using (var reader = new System.IO.StreamReader(response2.GetResponseStream(), encoding))
             //{
-            //    stream.Write(data, 0, data.Length);
+            //    string responseText = reader.ReadToEnd();
             //}
-            //HttpWebResponse response1;
-            //try
+            //return response2;
+        }
+
+        //public ClientResponse createListItem(String user, String name, String date)
+        //{
+        //    String body = ListItemTools.generateListItemBody(user, name, date);
+        //    return sendRequest(Constants.Urls.CREATE_LISTS_URL, HttpMethod.POST, body, null, null);
+        //}
+
+        public HttpWebResponse createItems(string taskName, string taskDate)
+        {
+            string taskjsonBody = string.Format("{0}\"{2}\":{0}\"{3}\":\"{4}\"{1}{1}", "{", "}", Constants.Users.TEST_USER, taskName, taskDate);
+
+            return sendRequest(Constants.Urls.CREATE_LISTS_URL, HttpMethod.POST, taskjsonBody);
+
+
+          //  var task = Encoding.ASCII.GetBytes(taskjson);
+           // HttpWebRequest request3 = (HttpWebRequest)WebRequest.Create(Constants.Urls.CREATE_LISTS_URL);
+           // request3.CookieContainer = myContainer;
+          //  request3.Accept = "*/*";
+           // request3.Method = HttpMethod.POST.ToString();
+           // request3.ContentType = "application/json";
+           // request3.ContentLength = task.Length;
+            //using (var stream = request3.GetRequestStream())
             //{
-            //    response1 = (HttpWebResponse)request1.GetResponse();
+            //    stream.Write(task, 0, task.Length);
             //}
-            //catch (System.Net.WebException ex)
-            //{
-            //    response1 = ex.Response as HttpWebResponse;
-            //    var encoding = ASCIIEncoding.ASCII;
-            //    using (var reader = new System.IO.StreamReader(response1.GetResponseStream(), encoding))
-            //    {
-            //        string responseText = reader.ReadToEnd();
-            //    }
-            //    Console.WriteLine("Status 500");
-            //    Console.WriteLine("That's strange");
-            //}
+            //HttpWebResponse response3 = (HttpWebResponse)request3.GetResponse();
+            //return response3;
+        }
+
+        public HttpWebResponse deleteItems(string taskName, string taskDate)
+        {
+            string dRequest = String.Format("{0}?tasks={1}:{2}:{3}", Constants.Urls.DELETE_LISTS_URL, Constants.Users.TEST_USER, taskName, taskDate);
+
+            HttpWebRequest deleteRequest = (HttpWebRequest)WebRequest.Create(dRequest);
+            deleteRequest.CookieContainer = myContainer;
+            deleteRequest.Accept = "application/json";
+            deleteRequest.Method = HttpMethod.POST.ToString();
+            HttpWebResponse deleteResponse = (HttpWebResponse)deleteRequest.GetResponse();
+            return deleteResponse;
+        }
+
+        public void Logout()
+        {
 
         }
     }
