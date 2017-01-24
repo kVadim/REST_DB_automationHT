@@ -77,21 +77,45 @@ namespace RESTautomationHT.RESTclient
             //return response3;
         }
 
+    //     public ClientResponse deleteListItem(String UserName, String listItemName, String listItemDate) {
+    //    MultivaluedMap<String, String> deleteQuery = new MultivaluedMapImpl<>();
+    //    deleteQuery.add("tasks", String.format("%s:%s:%s", UserName, listItemName, listItemDate));
+
+    //    return sendRequest(Constants.Urls.DELETE_LISTS_URL, HttpMethod.POST, "", deleteQuery, null);
+    //}
+
         public HttpWebResponse deleteItems(string taskName, string taskDate)
         {
             string dRequest = String.Format("{0}?tasks={1}:{2}:{3}", Constants.Urls.DELETE_LISTS_URL, Constants.Users.TEST_USER, taskName, taskDate);
+            //return sendRequest(Constants.Urls.DELETE_LISTS_URL, HttpMethod.POST, "", dRequest);
+            return sendRequest(dRequest, HttpMethod.POST,"");
 
-            HttpWebRequest deleteRequest = (HttpWebRequest)WebRequest.Create(dRequest);
-            deleteRequest.CookieContainer = myContainer;
-            deleteRequest.Accept = "application/json";
-            deleteRequest.Method = HttpMethod.POST.ToString();
-            HttpWebResponse deleteResponse = (HttpWebResponse)deleteRequest.GetResponse();
-            return deleteResponse;
+            //HttpWebRequest deleteRequest = (HttpWebRequest)WebRequest.Create(dRequest);
+            //deleteRequest.CookieContainer = myContainer;
+            //deleteRequest.Accept = "application/json";
+            //deleteRequest.Method = HttpMethod.POST.ToString();
+            //HttpWebResponse deleteResponse = (HttpWebResponse)deleteRequest.GetResponse();
+            //return deleteResponse;
         }
 
         public void Logout()
         {
 
         }
+
+        public HttpWebResponse filterListsByDate(string p, string taskDate)
+        {
+            return sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET);
+        }
+
+        //public ClientResponse filterListsByDate(String filterValue, String dateValue) {
+        //MultivaluedMap<String, String> filterQuery = new MultivaluedMapImpl<>();
+        //filterQuery.add("filterValue", filterValue);
+        //filterQuery.add("dateValue", dateValue);
+
+        //return sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET, "", filterQuery, null);
+
     }
+
 }
+

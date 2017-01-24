@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Text;
-using System.Net.Http;
-using RESTautomationHT.helpers;
 using System.Net;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace RESTautomationHT
 {
@@ -21,13 +17,13 @@ namespace RESTautomationHT
             DELETE
         }
 
-        protected HttpWebResponse sendRequest(string Url, HttpMethod Method, string Body = null, string ContentType = null)
+        protected HttpWebResponse sendRequest(string Url, HttpMethod Method, string Body = null, string ContentType = "application/json")
         {
             string method = Method.ToString();
             string accept = "application/json";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            HttpWebResponse response;
             request.CookieContainer = myContainer;
-            var data = Encoding.ASCII.GetBytes(Body);
             var encoding = ASCIIEncoding.ASCII;
             try
             {
@@ -38,26 +34,32 @@ namespace RESTautomationHT
                         request.CookieContainer = myContainer;
                         request.Method = Method.ToString();
                         request.Accept = accept;
-                        request.ContentType = ContentType;
+                        response = (HttpWebResponse)request.GetResponse();
                         using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding))
                         {
                             string responseText = reader.ReadToEnd();
                         }
-                        return (HttpWebResponse)request.GetResponse();
+                        return response;
 
                     case "POST":
+                        var data = Encoding.ASCII.GetBytes(Body);
                         request.CookieContainer = myContainer;
                         request.Method = Method.ToString();
                         request.Accept = accept;
                         request.ContentType = ContentType;
                         request.ContentLength = data.Length;
                         using (var stream = request.GetRequestStream())
-                        {
-                            stream.Write(data, 0, data.Length);
-                        }
+                            {
+                                stream.Write(data, 0, data.Length);
+                            }
+                        
                         try
                         {
                             response = (HttpWebResponse)request.GetResponse();
+                            using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding))
+                            {
+                                string responseText = reader.ReadToEnd();
+                            }
                         }
                         catch (System.Net.WebException ex)
                         {
@@ -90,23 +92,11 @@ namespace RESTautomationHT
             {
                 response = null;              
             }
-            return response;
+            return null;
         }
     }
 }
 
 
-
-
-
-//
-
-
-
-//var encoding = ASCIIEncoding.ASCII;
-//using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding))
-//{
-//    string responseText = reader.ReadToEnd();
-//} 
 
 // https://www.asp.net/web-api/overview/advanced/calling-a-web-api-from-a-net-client
