@@ -16,14 +16,6 @@ namespace RESTautomationHT.nunitTests
         protected Random random = new Random();
         protected DateTime today = DateTime.Today;
         protected static RestClientActions client = new RestClientActions();
-        
-    //    @BeforeClass
-    //public static void init(){
-    //    HttpUtils.SetSystemKeepAlive(true);
-    //    HttpUtils.SetSystemProxy();
-    //}
-
-
 
         [SetUp]
         public void Login()
@@ -43,9 +35,5 @@ namespace RESTautomationHT.nunitTests
 }
 
 
-//@BeforeClass
-//    public static void init(){
-//        HttpUtils.SetSystemKeepAlive(true);
-//        HttpUtils.SetSystemProxy();
-//    }
+
 

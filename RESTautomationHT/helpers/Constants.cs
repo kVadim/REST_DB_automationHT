@@ -23,10 +23,3 @@ namespace RESTautomationHT.helpers
     }
 }
 
-
-//private static ConnectionProperties properties = ConnectionProperties.getInstance();
-
-
-
-//    
-//    }
