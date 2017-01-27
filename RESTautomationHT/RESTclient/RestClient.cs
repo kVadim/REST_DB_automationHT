@@ -15,13 +15,13 @@ namespace RESTautomationHT
             DELETE
         }
 
+        // query ?? 18.14
         protected HttpWebResponse sendRequest(string Url, HttpMethod Method, string Body = null, string ContentType = "application/json")
         {
             string method = Method.ToString();
             string accept = "application/json";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
             request.CookieContainer = myContainer;
-            var encoding = ASCIIEncoding.ASCII;
             try
             {
                 switch (method)
@@ -45,9 +45,9 @@ namespace RESTautomationHT
                        return (HttpWebResponse)request.GetResponse();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                         
+                Console.WriteLine(e.StackTrace);        
             }
             return null;
         }

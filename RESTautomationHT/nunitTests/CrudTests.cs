@@ -13,7 +13,7 @@ namespace RESTautomationHT.nunitTests
     class CrudTests: TestBase
     {
         [Test]
-        public void GetAllitems()
+        public void GetAlltasks()
         {
             Console.WriteLine("------> getAllitems <------");
             Console.WriteLine("Get all Lists");
@@ -28,7 +28,7 @@ namespace RESTautomationHT.nunitTests
 
 
         [Test]
-        public void CreateNewItem()
+        public void CreateNewTask()
         {          
             Console.WriteLine("------> createNewItems <------");
             string taskName = "NewTask_" + random.Next(1, 1000);
@@ -44,7 +44,7 @@ namespace RESTautomationHT.nunitTests
         }
 
         [Test]
-        public void DleteItem()
+        public void DeleteTask()
         {
             Console.WriteLine("------> deleteListTest <------");
             Console.WriteLine("Create new List Item");

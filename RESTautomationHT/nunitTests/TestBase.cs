@@ -28,7 +28,7 @@ namespace RESTautomationHT.nunitTests
         public void Logout()
         {
             Console.WriteLine("Logged out");
-            client.Logout();
+            client.logout();
         }
 
     }

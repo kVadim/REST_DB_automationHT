@@ -23,6 +23,9 @@ namespace RESTautomationHT.validators
 
             Dictionary<string, Dictionary<string, string>> userTasks = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(responseText);
 
+           // validation if few users ?
+           // validation if no tasks ?
+
             for (int i = 0; i < userTasks.Values.ElementAt(0).Count; i++)
             {
                 if (ExpectedName == userTasks.Values.ElementAt(0).Keys.ElementAt(i))

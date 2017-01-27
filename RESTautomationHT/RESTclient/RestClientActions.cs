@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using RESTautomationHT.helpers;
 
+// - coockiestorage,
 namespace RESTautomationHT.RESTclient
 {
     public class RestClientActions : RestClient
     {
-        // static CookieContainer myContainer = new CookieContainer(); // WHY DO WE NEED IT HERE
-
+        //static CookieContainer myContainer = new CookieContainer(); // WHY DO WE NEED IT HERE ?
+        // why  not void
         public void login(string user, string password)
         {
             HttpWebResponse firstresponse = sendRequest(Constants.Urls.APP_URL, HttpMethod.GET);
+            //myContainer.GetCookies();
             string authContentType = "application/x-www-form-urlencoded";
             string credentialsBody = String.Format("name={0}&password={1}", user, password);
             HttpWebResponse responce = sendRequest(Constants.Urls.LOGIN_URL, HttpMethod.POST, credentialsBody, authContentType);
@@ -37,9 +35,9 @@ namespace RESTautomationHT.RESTclient
             return sendRequest(deleteRequest, HttpMethod.POST, "");
         }
 
-        public void Logout()
+        public void logout()
         {
-            
+            var cookies = myContainer.GetCookies(new Uri(Constants.Urls.APP_URL));                foreach (Cookie co in cookies)                {                  co.Expires = DateTime.Now.Subtract(TimeSpan.FromDays(1));                }
         }
 
         public HttpWebResponse filterListsByDate(string operation, string taskDate)
