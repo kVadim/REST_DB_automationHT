@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Net;
 using RESTautomationHT.helpers;
+using RESTautomationHT.validators;
 
-// - coockiestorage,
 namespace RESTautomationHT.RESTclient
 {
     public class RestClientActions : RestClient
     {
-        //static CookieContainer myContainer = new CookieContainer(); // WHY DO WE NEED IT HERE ?
-        // why  not void
         public void login(string user, string password)
         {
             HttpWebResponse firstresponse = sendRequest(Constants.Urls.APP_URL, HttpMethod.GET);
-            //myContainer.GetCookies();
             string authContentType = "application/x-www-form-urlencoded";
             string credentialsBody = String.Format("name={0}&password={1}", user, password);
-            HttpWebResponse responce = sendRequest(Constants.Urls.LOGIN_URL, HttpMethod.POST, credentialsBody, authContentType);
+            HttpWebResponse loginResponce = sendRequest(Constants.Urls.LOGIN_URL, HttpMethod.POST, credentialsBody, authContentType);
+            StatusCodeValidator.Validate("OK", loginResponce);
         }
 
         public HttpWebResponse getAllitems()
