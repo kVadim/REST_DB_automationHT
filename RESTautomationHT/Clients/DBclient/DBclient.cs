@@ -49,46 +49,27 @@ namespace RESTautomationHT.Clients.DBclient
                 }
         }
 
-        protected DataTable executeQuery(String sql)
+        protected List<string> executeQuery(String sql)
         {
-            DataSet ds = new DataSet();
-            DataTable dt = new DataTable();
-            SqlCommand cmd = new SqlCommand(sql);
-            //cmd.ExecuteNonQuery();
-            using (SqlDataAdapter adp = new SqlDataAdapter(cmd))
+            List<string> row = new List<string>();
+            try
             {
-                adp.Fill(ds);
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                SqlDataReader sqlReader = cmd.ExecuteReader();
+
+                while (sqlReader.Read())
+                {
+                    Console.WriteLine(sqlReader.GetValue(1) + " - " + sqlReader.GetValue(2) + " - " + sqlReader.GetValue(3));
+                    string currentRow = String.Format("{0}:{1}:{2}",sqlReader.GetValue(1),sqlReader.GetValue(2),sqlReader.GetValue(3));
+                    row.Add(currentRow);
+                }
             }
-           // adp(sql);
-           // adp.SelectCommand = new SqlCommand(sql, cnn);
-            
-            dt = ds.Tables["myData"];
-
-
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //while (reader.Read())
-            //{
-            //    Console.WriteLine();
-            //}
-            //reader.Close();
-
-
-
-            //ResultSet result = null;
-            //if (this.connection != null)
-            //{
-            //    try
-            //    {
-            //        Statement e = this.connection.createStatement();
-            //        result = e.executeQuery(sql);
-            //    }
-            //    catch (Exception var4)
-            //    {
-            //        throw new Exception(var4.getMessage());
-            //    }
-            //}
-
-            return dt;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            } 
+         
+            return row;
         }
 
         protected  void execute(string sql) {

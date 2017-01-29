@@ -31,20 +31,20 @@ namespace RESTautomationHT.Clients.DBclient
         }
 
 
-        public DataTable getAllTasks()
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                dt = this.executeQuery("SELECT * FROM LISTS");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace); 
-            }
+        //public DataTable getAllTasks()
+        //{
+        //    DataTable dt = new DataTable();
+        //    try
+        //    {
+        //        dt = this.executeQuery("SELECT * FROM LISTS");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.StackTrace); 
+        //    }
 
-            return dt;
-        }
+        //    return dt;
+        //}
 
         public void createNewTask(string taskName, string taskDate)
         {
@@ -71,26 +71,39 @@ namespace RESTautomationHT.Clients.DBclient
             }
         }
 
-        //    public void deleteTask(String name, String date) {
+        public List<string> getUniqueTask(string taskName, string taskDate)
+        {
+            List<string> uniqueTask = new List<string>();
+            try
+            {
+              uniqueTask = this.executeQuery(String.Format("SELECT * FROM LISTS WHERE NAME = '{0}' AND DATE = '{1}'",  taskName, taskDate));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return uniqueTask;
+        }
+
+        //    public List<Map<String, Object>> getUniqueTask(String name, String date) throws Exception {
+        //        Object list = new ArrayList();
+
         //        try {
-        //            this.execute(String.format("DELETE FROM LISTS WHERE OWNER = \'%s\' AND NAME =\'%s\' AND DATE = \'%s\'", new Object[]{currentUser, name, date}));
-        //        } catch (Exception var4) {
-        //            var4.printStackTrace();
+        //            ResultSet e = this.executeQuery(String.format("SELECT * FROM LISTS WHERE NAME = \'%s\' AND DATE = \'%s\'", new Object[]{name, date}));
+        //            list = this.serializeResult(e);
+        //        } catch (SQLException var5) {
+        //            var5.printStackTrace();
         //        }
 
+        //        return (List)list;
         //    }
+
+
     }
 }
 
-//package client.db;
 
-//import client.db.DbClient;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
 
 //public class ToDoListDbClient extends DbClient {
 //    private static String currentUser = "";

@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RESTautomationHT.validators;
 
 namespace RESTautomationHT.allTests.Tests_for_DB
 {
@@ -15,40 +17,45 @@ namespace RESTautomationHT.allTests.Tests_for_DB
         {
             Console.WriteLine("------> getAllitems <------");
             Console.WriteLine("Get all Lists");
-            DataTable allTasks = client.getAllTasks();
+          //  DataTable allTasks = client.getAllTasks();
             Console.WriteLine("Validate that all tasks collection is not null.");
-            Assert.IsTrue(allTasks != null, "Result should not be null even if there are no data in the table");
+          //  Assert.IsTrue(allTasks != null, "Result should not be null even if there are no data in the table");
         }
 
         [Test]
         public void createNewTaskDB()
         {
-            Console.WriteLine("------> createNewListTest <------");
-            Console.WriteLine("Create new List Item");
+            Console.WriteLine("------> createNewTaskTest <------");
+            Console.WriteLine("Create new task");
             string taskName = "NewTask_" + random.Next(1, 1000);
             string taskDate = today.ToString("yyyy-MM-dd");
             client.createNewTask(taskName, taskDate);
             Console.WriteLine("Verify if task can be found by Date filter.");
+            List<string> createdTask =  client.getUniqueTask(taskName, taskDate);
+            Assert.IsTrue(ResultSetValidator.validate(taskName, taskDate, createdTask),"Actual result doesn\'t match expected result.", );
+
         }
 
         [Test]
         public void deleteTaskDB()
         {
             Console.WriteLine("------> deleteListTest <------");
-            Console.WriteLine("Create new List Item");
+            Console.WriteLine("Create new task");
             string taskName = "NewTask_" + random.Next(1, 1000);
             string taskDate = today.ToString("yyyy-MM-dd");
             client.createNewTask(taskName, taskDate);
-            Console.WriteLine("Delete List Item -> {0} : {1}", taskName, taskDate);
+            Console.WriteLine("Delete task -> {0} : {1}", taskName, taskDate);
             client.deleteTask(taskName, taskDate);
+            Console.WriteLine("Verify if task -> {0} : {1} can not be selected anymore", taskName, taskDate);
+            client.getUniqueTask(taskName, taskDate);
 
-            Console.WriteLine("Verify if task can be found by Date filter.");
+          //  SqlDataReader myNewlyDeletedTask = client.getUniqueTask(taskName, taskDate);
+            //   Assert.assertTrue("Result should be empty", myNewlyDeletedTask.isEmpty());
 
         }
 
-//        System.out.println(String.format("Verify that list item -> %s : %s cannot be selected anymore", new Object[]{listName, listDate}));
-//        List myNewlyDeletedTask = client.getUniqueTask(listName, listDate);
-//        Assert.assertTrue("Result should be empty", myNewlyDeletedTask.isEmpty());
+
+
     }
 }
 
