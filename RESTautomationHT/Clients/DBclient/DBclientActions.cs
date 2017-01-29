@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RESTautomationHT.Clients.DBclient;
+using RESTautomationHT.helpers;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace RESTautomationHT.Clients.DBclient
 {
@@ -26,6 +29,56 @@ namespace RESTautomationHT.Clients.DBclient
         {
             base.disconnect();
         }
+
+
+        public DataTable getAllTasks()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                dt = this.executeQuery("SELECT * FROM LISTS");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace); 
+            }
+
+            return dt;
+        }
+
+        public void createNewTask(string taskName, string taskDate)
+        {
+            try
+            {
+                this.execute(String.Format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES('{0}','{1}','{2}')", Constants.Users.TEST_USER, taskName, taskDate ));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+
+        public void deleteTask(string taskName, string taskDate)
+        {
+            try
+            {
+                this.execute(String.Format("DELETE FROM LISTS WHERE OWNER = '{0}' AND NAME ='{1}' AND DATE = '{2}'", Constants.Users.TEST_USER, taskName, taskDate));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        //    public void deleteTask(String name, String date) {
+        //        try {
+        //            this.execute(String.format("DELETE FROM LISTS WHERE OWNER = \'%s\' AND NAME =\'%s\' AND DATE = \'%s\'", new Object[]{currentUser, name, date}));
+        //        } catch (Exception var4) {
+        //            var4.printStackTrace();
+        //        }
+
+        //    }
     }
 }
 

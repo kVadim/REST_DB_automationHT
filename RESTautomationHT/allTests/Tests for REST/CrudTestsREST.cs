@@ -31,6 +31,7 @@ namespace RESTautomationHT.allTests.Tests_for_REST
         public void CreateNewTask()
         {          
             Console.WriteLine("------> createNewItems <------");
+            Console.WriteLine("Create new List Item");
             string taskName = "NewTask_" + random.Next(1, 1000);
             string taskDate = today.ToString("yyyy-MM-dd");
             HttpWebResponse createItemResponse = client.createItems(Constants.Users.TEST_USER, taskName, taskDate);

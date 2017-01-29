@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,11 @@ namespace RESTautomationHT.Clients.DBclient
     public abstract class DBclient
     {
         SqlConnection cnn = null;
+       
 
         protected void connect(String DbUrl, String DbName, String DbUser, String DbPassword) 
         {
-            string connetionString = null;            //SqlConnection cnn ;
-            connetionString = String.Format(@"Data Source={0};Initial Catalog={1};User ID={2};Password={3}", DbUrl, DbName, DbUser, DbPassword);
+            string connetionString = null;            connetionString = String.Format(@"Data Source={0};Initial Catalog={1};User ID={2};Password={3}", DbUrl, DbName, DbUser, DbPassword);
 
             if (this.cnn == null)
             {
@@ -47,6 +48,66 @@ namespace RESTautomationHT.Clients.DBclient
                    Console.WriteLine(ex.StackTrace);
                 }
         }
+
+        protected DataTable executeQuery(String sql)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand(sql);
+            //cmd.ExecuteNonQuery();
+            using (SqlDataAdapter adp = new SqlDataAdapter(cmd))
+            {
+                adp.Fill(ds);
+            }
+           // adp(sql);
+           // adp.SelectCommand = new SqlCommand(sql, cnn);
+            
+            dt = ds.Tables["myData"];
+
+
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Console.WriteLine();
+            //}
+            //reader.Close();
+
+
+
+            //ResultSet result = null;
+            //if (this.connection != null)
+            //{
+            //    try
+            //    {
+            //        Statement e = this.connection.createStatement();
+            //        result = e.executeQuery(sql);
+            //    }
+            //    catch (Exception var4)
+            //    {
+            //        throw new Exception(var4.getMessage());
+            //    }
+            //}
+
+            return dt;
+        }
+
+        protected  void execute(string sql) {
+            if (this.cnn != null)
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+            }
+
+        }
+
+
     }
 }
 
