@@ -23,13 +23,28 @@ namespace RESTautomationHT.Clients.DBclient
              this.connect(db_url, db_name, db_user, db_password);
         }
 
-
-
         public void disconnectFromDb()
         {
             base.disconnect();
         }
 
+        public List<string> getAllTasks()
+        {
+            List<string> allTask = new List<string>();
+            try
+            {
+                allTask = this.executeQuery(String.Format("SELECT * FROM LISTS"));
+                if (allTask.Count == 0) 
+                {
+                    Console.WriteLine("Table is empty");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            return allTask;
+        }
 
         //public DataTable getAllTasks()
         //{

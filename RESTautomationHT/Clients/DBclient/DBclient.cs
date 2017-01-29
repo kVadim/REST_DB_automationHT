@@ -59,8 +59,11 @@ namespace RESTautomationHT.Clients.DBclient
 
                 while (sqlReader.Read())
                 {
-                    Console.WriteLine(sqlReader.GetValue(1) + " - " + sqlReader.GetValue(2) + " - " + sqlReader.GetValue(3));
-                    string currentRow = String.Format("{0}:{1}:{2}",sqlReader.GetValue(1),sqlReader.GetValue(2),sqlReader.GetValue(3));
+                    string user = sqlReader.GetValue(1).ToString();
+                    string taskName = sqlReader.GetValue(2).ToString();
+                    string taskDate = DateTime.Parse(sqlReader.GetValue(3).ToString()).ToString("yyyy-M-dd");
+                    string currentRow = String.Format("{0} : {1} : {2}", user, taskName, taskDate);
+                    Console.WriteLine(currentRow);
                     row.Add(currentRow);
                 }
             }

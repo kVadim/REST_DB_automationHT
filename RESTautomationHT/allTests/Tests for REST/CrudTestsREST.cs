@@ -13,7 +13,7 @@ namespace RESTautomationHT.allTests.Tests_for_REST
     class CrudTestsREST: TestBaseREST
     {
         [Test]
-        public void GetAlltasks()
+        public void REST_GetAlltasks()
         {
             Console.WriteLine("------> getAllitems <------");
             Console.WriteLine("Get all Lists");
@@ -28,7 +28,7 @@ namespace RESTautomationHT.allTests.Tests_for_REST
 
 
         [Test]
-        public void CreateNewTask()
+        public void REST_CreateNewTask()
         {          
             Console.WriteLine("------> createNewItems <------");
             Console.WriteLine("Create new List Item");
@@ -45,7 +45,7 @@ namespace RESTautomationHT.allTests.Tests_for_REST
         }
 
         [Test]
-        public void DeleteTask()
+        public void REST_DeleteTask()
         {
             Console.WriteLine("------> deleteListTest <------");
             Console.WriteLine("Create new List Item");

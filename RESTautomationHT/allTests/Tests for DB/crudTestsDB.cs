@@ -13,17 +13,17 @@ namespace RESTautomationHT.allTests.Tests_for_DB
     public class CrudTestsDB: TestBaseDB
     {
         [Test]
-        public void GetAlltasksDB()
+        public void DB_GetAlltasks()
         {
             Console.WriteLine("------> getAllitems <------");
             Console.WriteLine("Get all Lists");
-          //  DataTable allTasks = client.getAllTasks();
+            List<string> allTasks = client.getAllTasks();
             Console.WriteLine("Validate that all tasks collection is not null.");
-          //  Assert.IsTrue(allTasks != null, "Result should not be null even if there are no data in the table");
+            Assert.IsTrue(allTasks != null, "Result should not be null even if there are no data in the table");
         }
 
         [Test]
-        public void createNewTaskDB()
+        public void DB_CreateNewTask()
         {
             Console.WriteLine("------> createNewTaskTest <------");
             Console.WriteLine("Create new task");
@@ -32,12 +32,12 @@ namespace RESTautomationHT.allTests.Tests_for_DB
             client.createNewTask(taskName, taskDate);
             Console.WriteLine("Verify if task can be found by Date filter.");
             List<string> createdTask =  client.getUniqueTask(taskName, taskDate);
-            Assert.IsTrue(ResultSetValidator.validate(taskName, taskDate, createdTask),"Actual result doesn\'t match expected result.", );
+           // Assert.IsTrue(ResultSetValidator.validate(taskName, taskDate, createdTask),"Actual result doesn\'t match expected result.");
 
         }
 
         [Test]
-        public void deleteTaskDB()
+        public void DB_DeleteTask()
         {
             Console.WriteLine("------> deleteListTest <------");
             Console.WriteLine("Create new task");
@@ -47,10 +47,8 @@ namespace RESTautomationHT.allTests.Tests_for_DB
             Console.WriteLine("Delete task -> {0} : {1}", taskName, taskDate);
             client.deleteTask(taskName, taskDate);
             Console.WriteLine("Verify if task -> {0} : {1} can not be selected anymore", taskName, taskDate);
-            client.getUniqueTask(taskName, taskDate);
-
-          //  SqlDataReader myNewlyDeletedTask = client.getUniqueTask(taskName, taskDate);
-            //   Assert.assertTrue("Result should be empty", myNewlyDeletedTask.isEmpty());
+            List<string> deletedTask= client.getUniqueTask(taskName, taskDate);
+            Assert.IsTrue(deletedTask.Count==0, "Result should be empty");
 
         }
 
