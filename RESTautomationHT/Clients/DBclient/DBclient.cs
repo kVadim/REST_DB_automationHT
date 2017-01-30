@@ -49,33 +49,51 @@ namespace RESTautomationHT.Clients.DBclient
                 }
         }
 
-        protected List<string> executeQuery(String sql)
+        //protected List<string> executeQuery(String sql)
+        //{
+        //    List<string> row = new List<string>();
+        //    try
+        //    {
+        //        SqlCommand cmd = new SqlCommand(sql, cnn);
+        //        SqlDataReader sqlReader = cmd.ExecuteReader();
+
+        //        while (sqlReader.Read())
+        //        {
+        //            string user = sqlReader.GetValue(1).ToString();
+        //            string taskName = sqlReader.GetValue(2).ToString();
+        //            string taskDate = DateTime.Parse(sqlReader.GetValue(3).ToString()).ToString("yyyy-M-dd");
+        //            string currentRow = String.Format("{0} : {1} : {2}", user, taskName, taskDate);
+        //            Console.WriteLine(currentRow);
+        //            row.Add(currentRow);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.StackTrace);
+        //    } 
+         
+        //    return row;
+        //}
+        protected DataTable executeQuery(String sql)
         {
-            List<string> row = new List<string>();
+            DataTable tbl = new DataTable();
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, cnn);
-                SqlDataReader sqlReader = cmd.ExecuteReader();
-
-                while (sqlReader.Read())
-                {
-                    string user = sqlReader.GetValue(1).ToString();
-                    string taskName = sqlReader.GetValue(2).ToString();
-                    string taskDate = DateTime.Parse(sqlReader.GetValue(3).ToString()).ToString("yyyy-M-dd");
-                    string currentRow = String.Format("{0} : {1} : {2}", user, taskName, taskDate);
-                    Console.WriteLine(currentRow);
-                    row.Add(currentRow);
-                }
+                SqlDataAdapter adpter = new SqlDataAdapter(cmd);
+                DataSet dsTasks = new DataSet("dataSET");
+                adpter.Fill(dsTasks,"LISTS");                
+                tbl = dsTasks.Tables["LISTS"];
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
-            } 
-         
-            return row;
+            }
+            return tbl;
         }
 
-        protected  void execute(string sql) {
+
+        protected  void ExecuteNonQuery(string sql) {
             if (this.cnn != null)
             {
                 try

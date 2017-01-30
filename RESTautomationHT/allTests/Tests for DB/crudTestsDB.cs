@@ -17,7 +17,7 @@ namespace RESTautomationHT.allTests.Tests_for_DB
         {
             Console.WriteLine("------> getAllitems <------");
             Console.WriteLine("Get all Lists");
-            List<string> allTasks = client.getAllTasks();
+            List<Dictionary<string, object>> allTasks = client.getAllTasks();
             Console.WriteLine("Validate that all tasks collection is not null.");
             Assert.IsTrue(allTasks != null, "Result should not be null even if there are no data in the table");
         }
@@ -27,11 +27,12 @@ namespace RESTautomationHT.allTests.Tests_for_DB
         {
             Console.WriteLine("------> createNewTaskTest <------");
             Console.WriteLine("Create new task");
-            string taskName = "NewTask_" + random.Next(1, 1000);
+            string taskName = "NewTask_" + random.Next(100, 1000);
             string taskDate = today.ToString("yyyy-MM-dd");
             client.createNewTask(taskName, taskDate);
             Console.WriteLine("Verify if task can be found by Date filter.");
-            List<string> createdTask =  client.getUniqueTask(taskName, taskDate);
+           // List<string> createdTask =  client.getUniqueTask(taskName, taskDate);
+            List<Dictionary<string, object>> createdTask = client.getUniqueTask(taskName, taskDate);
            // Assert.IsTrue(ResultSetValidator.validate(taskName, taskDate, createdTask),"Actual result doesn\'t match expected result.");
 
         }
@@ -41,13 +42,13 @@ namespace RESTautomationHT.allTests.Tests_for_DB
         {
             Console.WriteLine("------> deleteListTest <------");
             Console.WriteLine("Create new task");
-            string taskName = "NewTask_" + random.Next(1, 1000);
+            string taskName = "NewTask_" + random.Next(100, 1000);
             string taskDate = today.ToString("yyyy-MM-dd");
             client.createNewTask(taskName, taskDate);
             Console.WriteLine("Delete task -> {0} : {1}", taskName, taskDate);
             client.deleteTask(taskName, taskDate);
             Console.WriteLine("Verify if task -> {0} : {1} can not be selected anymore", taskName, taskDate);
-            List<string> deletedTask= client.getUniqueTask(taskName, taskDate);
+            List<Dictionary<string, object>> deletedTask = client.getUniqueTask(taskName, taskDate);
             Assert.IsTrue(deletedTask.Count==0, "Result should be empty");
 
         }

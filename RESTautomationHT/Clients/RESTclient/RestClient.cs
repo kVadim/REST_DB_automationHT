@@ -30,12 +30,14 @@ namespace RESTautomationHT
                         if (Url.Contains("Login")) accept = "*/*";
                         request.Method = Method.ToString();
                         request.Accept = accept;
+                        request.ServicePoint.ConnectionLimit = 100;
                         return (HttpWebResponse)request.GetResponse();
 
                     case "POST":
                         var data = Encoding.ASCII.GetBytes(Body);
                         request.Method = Method.ToString();
                         request.Accept = accept;
+                        request.ServicePoint.ConnectionLimit = 100;
                         request.ContentType = ContentType;
                         request.ContentLength = data.Length;
                         using (var stream = request.GetRequestStream())
