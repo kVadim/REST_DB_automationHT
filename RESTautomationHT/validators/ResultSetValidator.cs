@@ -8,21 +8,16 @@ namespace RESTautomationHT.validators
 {
     public class ResultSetValidator
     {
-        public static bool validate(string expectedName, string expectedDate, List<string> actualresponse)
+        public static bool validate(string expectedName, DateTime expectedDate, List<Dictionary<string, object>> actualresponse)
         {
-            //iterator var3 = actualresponse.iterator();
-
-            //map row;
-            //do {
-            //    if(!var3.hasnext()) {
-            //        return true;
-            //    }
-
-            //    row = (map)var3.next();
-            //    if(!row.get("name").tostring().equalsignorecase(expectedname)) {
-            //        return false;
-            //    }
-            //} while(row.get("date").tostring().equalsignorecase(expecteddate));
+            if (actualresponse[0].Values.ElementAt(2).ToString().Equals(expectedName) )
+            {
+                DateTime actualDate = DateTime.Parse(actualresponse[0].Values.ElementAt(3).ToString());
+                if (actualDate == expectedDate)
+                {
+                    return true;
+                }
+            }
 
             return false;
         }

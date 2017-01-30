@@ -36,9 +36,9 @@ namespace RESTautomationHT.Clients.DBclient
                 {
                     string id = drCurrent[0].ToString();
                     string user = drCurrent[1].ToString();
-                    string taskName = drCurrent[2].ToString();
-                    string taskDate = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-M-dd");
-                    string currentRow = String.Format("{0} : {1} : {2}: {3}", id, user, taskName, taskDate);
+                    string Name = drCurrent[2].ToString();
+                    string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
+                    string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
                     Console.WriteLine(currentRow);
                 }
                 allTasks = this.serializeResult(Tasks);
@@ -50,13 +50,11 @@ namespace RESTautomationHT.Clients.DBclient
             return allTasks;
         }
 
-
-
-        public void createNewTask(string taskName, string taskDate)
+        public void createNewTask(string taskName, DateTime taskDate)
         {
             try
             {
-                this.ExecuteNonQuery(String.Format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES('{0}','{1}','{2}')", Constants.Users.TEST_USER, taskName, taskDate ));
+                this.ExecuteNonQuery(String.Format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES('{0}','{1}','{2}')", Constants.Users.TEST_USER, taskName, taskDate.ToString("yyyy-MM-dd") ));
             }
             catch (Exception e)
             {
@@ -64,7 +62,7 @@ namespace RESTautomationHT.Clients.DBclient
             }
         }
 
-        public void deleteTask(string taskName, string taskDate)
+        public void deleteTask(string taskName, DateTime taskDate)
         {
             try
             {
@@ -76,42 +74,24 @@ namespace RESTautomationHT.Clients.DBclient
             }
         }
 
-        //public List<string> getUniqueTask(string taskName, string taskDate)
-        //{
-        //    List<string> uniqueTask = new List<string>();
-        //    try
-        //    {
-        //      uniqueTask = this.executeQuery(String.Format("SELECT * FROM LISTS WHERE NAME = '{0}' AND DATE = '{1}'",  taskName, taskDate));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.StackTrace);
-        //    }
-
-        //    return uniqueTask;
-        //}
-
-        public List<Dictionary<string, object>> getUniqueTask(string taskName, string taskDate)
+        public List<Dictionary<string, object>> getUniqueTask(string taskName, DateTime taskDate)
         {
-            DataTable Tasks = new DataTable();
             List<Dictionary<string, object>> uniqueTask = new List<Dictionary<string, object>>();
 
             try
             {
-                Tasks = this.executeQuery(String.Format("SELECT * FROM LISTS WHERE NAME = '{0}' AND DATE = '{1}'", taskName, taskDate));
+                DataTable Tasks = this.executeQuery(String.Format("SELECT * FROM LISTS WHERE NAME = '{0}' AND DATE = '{1}'", taskName, taskDate.ToString("yyyy-MM-dd")));
+
                 foreach (DataRow drCurrent in Tasks.Rows)
                 {
-                    string df = Tasks.Columns[0].ToString(); 
                     string id = drCurrent[0].ToString();
-                    //string id = drCurrent["ID"].ToString();
-                    string owner = drCurrent["OWNER"].ToString();
-                    string name = drCurrent["NAME"].ToString();
-                    string date = drCurrent["DATE"].ToString();
-
+                    string user = drCurrent[1].ToString();
+                    string Name = drCurrent[2].ToString();
+                    string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
+                    string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
+                    Console.WriteLine(currentRow);
                 }
-               uniqueTask = this.serializeResult(Tasks);
-
-
+                uniqueTask = this.serializeResult(Tasks);
             }
             catch (Exception e)
             {
@@ -119,8 +99,6 @@ namespace RESTautomationHT.Clients.DBclient
             }
             return uniqueTask;
         }
-
-
 
         private List<Dictionary<string, object>> serializeResult(DataTable datatable)
         {
@@ -132,7 +110,7 @@ namespace RESTautomationHT.Clients.DBclient
                    Dictionary<string, object> task = new Dictionary<string, object>();
                    for (int i = 0; i < datatable.Columns.Count; ++i)
                         {
-                            task.Add(datatable.Columns[i].ToString(), datatable.Rows[i]);
+                            task.Add(datatable.Columns[i].ToString(), drCurrent[i]);
                            
                         }
                      list.Add(task);
