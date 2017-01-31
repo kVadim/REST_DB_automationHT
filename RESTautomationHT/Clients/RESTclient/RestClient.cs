@@ -20,6 +20,7 @@ namespace RESTautomationHT
             string method = Method.ToString();
             string accept = "application/json";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.ServicePoint.ConnectionLimit = 100;
             request.CookieContainer = myContainer;
             try
             {
@@ -29,14 +30,12 @@ namespace RESTautomationHT
                         if (Url.Contains("Login")) accept = "*/*";
                         request.Method = Method.ToString();
                         request.Accept = accept;
-                        request.ServicePoint.ConnectionLimit = 100;
                         return (HttpWebResponse)request.GetResponse();
 
                     case "POST":
                         var data = Encoding.ASCII.GetBytes(Body);
                         request.Method = Method.ToString();
                         request.Accept = accept;
-                        request.ServicePoint.ConnectionLimit = 100;
                         request.ContentType = ContentType;
                         request.ContentLength = data.Length;
                         using (var stream = request.GetRequestStream())
