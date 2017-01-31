@@ -29,15 +29,7 @@ namespace RESTautomationHT.Clients.DBclient
                 }
                 else
                 {
-                    foreach (DataRow drCurrent in Tasks.Rows)
-                    {
-                        string id = drCurrent[0].ToString();
-                        string user = drCurrent[1].ToString();
-                        string Name = drCurrent[2].ToString();
-                        string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
-                        string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
-                        Console.WriteLine(currentRow);
-                    }
+                    SendToOutput.SendSQLResponse(Tasks);
                 }
                 allTasks = this.serializeResult(Tasks);
             } 
@@ -76,27 +68,17 @@ namespace RESTautomationHT.Clients.DBclient
             {
                 Console.WriteLine(e.StackTrace);
             }
-
             return isDeleted;
         }
 
         public List<Dictionary<string, object>> getUniqueTask(string taskName, DateTime taskDate)
         {
             List<Dictionary<string, object>> uniqueTask = new List<Dictionary<string, object>>();
-
             try
             {
                 DataTable Tasks = this.executeQuery(String.Format("SELECT * FROM LISTS WHERE NAME = '{0}' AND DATE = '{1}'", taskName, taskDate.ToString("yyyy-MM-dd")));
 
-                foreach (DataRow drCurrent in Tasks.Rows)
-                {
-                    string id = drCurrent[0].ToString();
-                    string user = drCurrent[1].ToString();
-                    string Name = drCurrent[2].ToString();
-                    string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
-                    string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
-                    Console.WriteLine(currentRow);
-                }
+                SendToOutput.SendSQLResponse(Tasks);
                 uniqueTask = this.serializeResult(Tasks);
             }
             catch (Exception e)

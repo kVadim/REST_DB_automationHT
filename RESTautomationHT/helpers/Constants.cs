@@ -24,6 +24,7 @@ namespace RESTautomationHT.helpers
             public static string CREATE_LISTS_URL = APP_URL + "CreateList";
             public static string DELETE_LISTS_URL = APP_URL + "DeleteList";
         }
+
         public static class DB
         {
             public static string DB_NAME = ConfigurationManager.AppSettings["db_name"];

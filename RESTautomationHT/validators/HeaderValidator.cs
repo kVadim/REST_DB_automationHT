@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTautomationHT.validators
 {
-    public class HeadersValidator    // incorrect validator
+    public class HeadersValidator   
     {
-        public static void Validate(Dictionary<String, String> ExpectedHeaders, HttpWebResponse ActualResponse) 
+        public static void Validate(Dictionary<String, String> ExpectedHeaders, HttpWebResponse ActualResponse)
         {
             for (int i = 0; i < ExpectedHeaders.Count; i++)
             {
+                bool currentHeaderIsFound = false;
                 for (int j = 0; j < ActualResponse.Headers.Count; j++)
                 {
                     if (ActualResponse.Headers.Keys[j] != null)
                     {
                         if (ExpectedHeaders.Keys.ElementAt(i) == ActualResponse.Headers.Keys[j])
                         {
+                            currentHeaderIsFound = true;
                             if (ExpectedHeaders.Values.ElementAt(i) == ActualResponse.GetResponseHeader(ActualResponse.Headers.Keys[j]))
                             {
                                 break;
@@ -34,6 +34,10 @@ namespace RESTautomationHT.validators
                             }
                         }
                     }
+                }
+                if (!currentHeaderIsFound)
+                {
+                    throw new Exception(String.Format("Expected Header: {0} is not found among actual headers", ExpectedHeaders.Keys.ElementAt(i)));
                 }
             }
         }
