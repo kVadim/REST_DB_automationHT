@@ -10,3 +10,15 @@ D:\Homework\RESTautomationHT\RESTautomationHT\bin\Debug\System.Net.Http.Formatti
 D:\Homework\RESTautomationHT\RESTautomationHT\obj\Debug\REST_DB_automationHT.csprojResolveAssemblyReference.cache
 D:\Homework\RESTautomationHT\RESTautomationHT\obj\Debug\RESTautomationHT.dll
 D:\Homework\RESTautomationHT\RESTautomationHT\obj\Debug\RESTautomationHT.pdb
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\RESTautomationHT.dll.config
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\RESTautomationHT.dll
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\RESTautomationHT.pdb
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\Newtonsoft.Json.dll
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\nunit.framework.dll
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\System.Net.Http.Formatting.dll
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\Newtonsoft.Json.xml
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\nunit.framework.xml
+D:\Homework\REST_DB_automationHT\RESTautomationHT\bin\Debug\System.Net.Http.Formatting.xml
+D:\Homework\REST_DB_automationHT\RESTautomationHT\obj\Debug\REST_DB_automationHT.csprojResolveAssemblyReference.cache
+D:\Homework\REST_DB_automationHT\RESTautomationHT\obj\Debug\RESTautomationHT.dll
+D:\Homework\REST_DB_automationHT\RESTautomationHT\obj\Debug\RESTautomationHT.pdb
