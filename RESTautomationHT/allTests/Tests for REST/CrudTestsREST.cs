@@ -39,7 +39,6 @@ namespace RESTautomationHT.allTests.Tests_for_REST
             StatusCodeValidator.Validate("Created", createItemResponse);
             Console.WriteLine("Verify if task can be found by Date filter.");
             HttpWebResponse filterByDateResponse = client.filterListsByDate("=", taskDate);
-
             Assert.IsTrue(BodyValidator.verifyIfListItemIsPresent(taskName, taskDate, filterByDateResponse),
                 String.Format("Created listItem: {0} : {1}, can not be found by date filter.", taskName, taskDate));
         }
@@ -58,11 +57,10 @@ namespace RESTautomationHT.allTests.Tests_for_REST
             Assert.IsTrue( BodyValidator.verifyIfListItemIsPresent(taskName, taskDate, filterByDateResponse),
                 String.Format("Created listItem: {0} : {1}, can not be found by date filter.", taskName, taskDate) );
 
-            Console.WriteLine("Delete List Item -> {0} : {0}", taskName, taskDate);
+            Console.WriteLine("Delete List Item -> {0} : {1}", taskName, taskDate);
             HttpWebResponse deleteItemResponse = client.deleteItems(Constants.Users.TEST_USER, taskName, taskDate);
             Console.WriteLine("Validate response's  Status Code");
             StatusCodeValidator.Validate("OK", deleteItemResponse);
-
             Console.WriteLine("Verify if task can not be found by Date filter.");
             filterByDateResponse = client.filterListsByDate("=", taskDate);
 

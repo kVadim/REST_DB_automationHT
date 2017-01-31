@@ -2,6 +2,8 @@
 using System.Net;
 using RESTautomationHT.helpers;
 using RESTautomationHT.validators;
+using System.Text;
+using System.IO;
 
 namespace RESTautomationHT.RESTclient
 {
@@ -18,13 +20,17 @@ namespace RESTautomationHT.RESTclient
 
         public HttpWebResponse getAllitems()
         {
-            return sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET);
+            HttpWebResponse allItems = sendRequest(Constants.Urls.GET_LISTS_URL, HttpMethod.GET);
+            OutputResponceContent.Print(allItems);
+            return allItems;
         }
 
         public HttpWebResponse createItems(string userName, string taskName, string taskDate)
         {
             string taskjsonBody = string.Format("{0}\"{2}\":{0}\"{3}\":\"{4}\"{1}{1}", "{", "}", userName, taskName, taskDate);
-            return sendRequest(Constants.Urls.CREATE_LISTS_URL, HttpMethod.POST, taskjsonBody);
+            HttpWebResponse createItem = sendRequest(Constants.Urls.CREATE_LISTS_URL, HttpMethod.POST, taskjsonBody);
+            OutputResponceContent.Print(createItem);
+            return createItem;
         }
 
         public HttpWebResponse deleteItems(string userName, string taskName, string taskDate)

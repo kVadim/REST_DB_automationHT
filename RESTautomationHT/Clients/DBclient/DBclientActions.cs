@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RESTautomationHT.Clients.DBclient;
 using RESTautomationHT.helpers;
-using System.Data.SqlClient;
 using System.Data;
 
 namespace RESTautomationHT.Clients.DBclient
@@ -24,7 +19,7 @@ namespace RESTautomationHT.Clients.DBclient
 
         public List<Dictionary<string, object>> getAllTasks()
         {
-            List<Dictionary<string, object>> allTasks = new List<Dictionary<string, object>>();
+            List<Dictionary<string, object>> allTasks =  new List<Dictionary<string, object>>();
             try
             {
                 DataTable Tasks = this.executeQuery(String.Format("SELECT * FROM LISTS"));
@@ -32,46 +27,57 @@ namespace RESTautomationHT.Clients.DBclient
                 {
                     Console.WriteLine("Table is empty");
                 }
-                foreach (DataRow drCurrent in Tasks.Rows)
+                else
                 {
-                    string id = drCurrent[0].ToString();
-                    string user = drCurrent[1].ToString();
-                    string Name = drCurrent[2].ToString();
-                    string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
-                    string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
-                    Console.WriteLine(currentRow);
+                    foreach (DataRow drCurrent in Tasks.Rows)
+                    {
+                        string id = drCurrent[0].ToString();
+                        string user = drCurrent[1].ToString();
+                        string Name = drCurrent[2].ToString();
+                        string Date = DateTime.Parse(drCurrent[3].ToString()).ToString("yyyy-MM-dd");
+                        string currentRow = String.Format("{0} : {1} : {2} : {3}", id, user, Name, Date);
+                        Console.WriteLine(currentRow);
+                    }
                 }
                 allTasks = this.serializeResult(Tasks);
-            }
+            } 
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
+                allTasks = null;
             }
             return allTasks;
         }
 
-        public void createNewTask(string taskName, DateTime taskDate)
+        public bool createNewTask(string taskName, DateTime taskDate)
         {
+            bool isCreated = false;
             try
             {
-                this.ExecuteNonQuery(String.Format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES('{0}','{1}','{2}')", Constants.Users.TEST_USER, taskName, taskDate.ToString("yyyy-MM-dd") ));
+                this.ExecuteNonQuery(String.Format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES('{0}','{1}','{2}')", Constants.Users.TEST_USER, taskName, taskDate ));
+                isCreated = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
             }
+            return isCreated;
         }
 
-        public void deleteTask(string taskName, DateTime taskDate)
+        public bool deleteTask(string taskName, DateTime taskDate)
         {
+            bool isDeleted = false;
             try
             {
                 this.ExecuteNonQuery(String.Format("DELETE FROM LISTS WHERE OWNER = '{0}' AND NAME ='{1}' AND DATE = '{2}'", Constants.Users.TEST_USER, taskName, taskDate));
+                isDeleted = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
             }
+
+            return isDeleted;
         }
 
         public List<Dictionary<string, object>> getUniqueTask(string taskName, DateTime taskDate)
@@ -124,88 +130,3 @@ namespace RESTautomationHT.Clients.DBclient
         }
     }
 }
-
-
-
-//public class ToDoListDbClient extends DbClient {
-//    private static String currentUser = "";
-
-//    public ToDoListDbClient() {
-//    }
-
-//    public void connectToDb(String dbUrl, String user, String password) throws Exception {
-//        if(user.equalsIgnoreCase("sa")) {
-//            currentUser = "admin";
-//        }
-
-//        this.connect(dbUrl, user, password);
-//    }
-
-//    public void disconnectFromDb() {
-//        super.disconnect();
-//    }
-
-//    public List<Map<String, Object>> getAllTasks() throws Exception {
-//        Object list = new ArrayList();
-
-//        try {
-//            ResultSet e = this.executeQuery("SELECT * FROM LISTS");
-//            list = this.serializeResult(e);
-//        } catch (SQLException var3) {
-//            var3.printStackTrace();
-//        }
-
-//        return (List)list;
-//    }
-
-//    public List<Map<String, Object>> getUniqueTask(String name, String date) throws Exception {
-//        Object list = new ArrayList();
-
-//        try {
-//            ResultSet e = this.executeQuery(String.format("SELECT * FROM LISTS WHERE NAME = \'%s\' AND DATE = \'%s\'", new Object[]{name, date}));
-//            list = this.serializeResult(e);
-//        } catch (SQLException var5) {
-//            var5.printStackTrace();
-//        }
-
-//        return (List)list;
-//    }
-
-//    public void createNewTask(String name, String date) {
-//        try {
-//            this.execute(String.format("INSERT INTO LISTS (OWNER,NAME,DATE) VALUES(\'%s\',\'%s\',\'%s\')", new Object[]{currentUser, name, date}));
-//        } catch (Exception var4) {
-//            var4.printStackTrace();
-//        }
-
-//    }
-
-//    public void deleteTask(String name, String date) {
-//        try {
-//            this.execute(String.format("DELETE FROM LISTS WHERE OWNER = \'%s\' AND NAME =\'%s\' AND DATE = \'%s\'", new Object[]{currentUser, name, date}));
-//        } catch (Exception var4) {
-//            var4.printStackTrace();
-//        }
-
-//    }
-
-//    private List<Map<String, Object>> serializeResult(ResultSet resultSet) {
-//        ArrayList list = new ArrayList();
-
-//        try {
-//            while(resultSet.next()) {
-//                HashMap e = new HashMap();
-
-//                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); ++i) {
-//                    e.put(resultSet.getMetaData().getColumnName(i), resultSet.getObject(i));
-//                }
-
-//                list.add(e);
-//            }
-//        } catch (SQLException var5) {
-//            var5.printStackTrace();
-//        }
-
-//        return list;
-//    }
-//}

@@ -14,8 +14,7 @@ namespace RESTautomationHT
             PUT,
             DELETE
         }
-
-        // query ?? 18.14
+      
         protected HttpWebResponse sendRequest(string Url, HttpMethod Method, string Body = null, string ContentType = "application/json")
         {
             string method = Method.ToString();

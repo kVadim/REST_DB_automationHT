@@ -23,8 +23,9 @@ namespace RESTautomationHT.allTests.Tests_for_DB
             Console.WriteLine("------> createNewTaskTest <------");
             Console.WriteLine("Create new task");
             string taskName = "NewTask_" + random.Next(100, 1000);
-            DateTime taskDate = DateTime.Today;  
-            client.createNewTask(taskName, taskDate);
+            DateTime taskDate = DateTime.Today; 
+            bool isCreated = client.createNewTask(taskName, taskDate);
+            Assert.IsTrue(isCreated, "Task is not created");
             Console.WriteLine("Verify if task can be found by Date filter.");
             List<Dictionary<string, object>> createdTask = client.getUniqueTask(taskName, taskDate);
             Assert.IsTrue(ResultSetValidator.validate(taskName, taskDate, createdTask),"Actual result doesn't match expected result");
@@ -39,7 +40,8 @@ namespace RESTautomationHT.allTests.Tests_for_DB
             DateTime taskDate = DateTime.Today;
             client.createNewTask(taskName, taskDate);
             Console.WriteLine("Delete task -> {0} : {1}", taskName, taskDate.ToString("yyyy-MM-dd"));
-            client.deleteTask(taskName, taskDate);
+            bool isDeleted = client.deleteTask(taskName, taskDate);
+            Assert.IsTrue(isDeleted, "Task is not deleted");
             Console.WriteLine("Verify if task -> {0} : {1} can not be selected anymore", taskName, taskDate.ToString("yyyy-MM-dd"));
             List<Dictionary<string, object>> deletedTask = client.getUniqueTask(taskName, taskDate);
             Assert.IsTrue(deletedTask.Count==0, "Result should be empty");
